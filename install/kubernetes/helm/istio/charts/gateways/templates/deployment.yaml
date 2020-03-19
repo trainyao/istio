@@ -86,10 +86,10 @@ spec:
 {{- end }}
 {{- end }}
         - name: istio-proxy
-{{- if contains "/" $.Values.global.proxy.image }}
-          image: "{{ $.Values.global.proxy.image }}"
+{{- if contains "/" $.Values.global.sidecar.image }}
+          image: "{{ $.Values.global.sidecar.image }}"
 {{- else }}
-          image: "{{ $.Values.global.hub }}/{{ $.Values.global.proxy.image }}:{{ $.Values.global.tag }}"
+          image: "{{ $.Values.global.hub }}/{{ $.Values.global.sidecar.image }}:{{ $.Values.global.tag }}"
 {{- end }}
           imagePullPolicy: {{ $.Values.global.imagePullPolicy }}
           ports:
@@ -113,6 +113,8 @@ spec:
         {{- if $.Values.global.logging.level }}
           - --log_output_level={{ $.Values.global.logging.level }}
         {{- end}}
+          - --binaryPath
+          - {{ $.Values.global.sidecar.binaryPath }}
           - --drainDuration
           - '45s' #drainDuration
           - --parentShutdownDuration
@@ -188,16 +190,17 @@ spec:
         {{- if $.Values.global.trustDomain }}
           - --trust-domain={{ $.Values.global.trustDomain }}
         {{- end }}
-          readinessProbe:
-            failureThreshold: 30
-            httpGet:
-              path: /healthz/ready
-              port: 15020
-              scheme: HTTP
-            initialDelaySeconds: 1
-            periodSeconds: 2
-            successThreshold: 1
-            timeoutSeconds: 1
+         # TODO support probe, Now MOSN don't support server_info API.
+         # readinessProbe:
+         #   failureThreshold: 30
+         #   httpGet:
+         #     path: /healthz/ready
+         #     port: 15020
+         #     scheme: HTTP
+         #   initialDelaySeconds: 1
+         #   periodSeconds: 2
+         #   successThreshold: 1
+         #   timeoutSeconds: 1
           resources:
 {{- if $spec.resources }}
 {{ toYaml $spec.resources | indent 12 }}
