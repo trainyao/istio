@@ -19,6 +19,7 @@ import (
 
 	admin "github.com/envoyproxy/go-control-plane/envoy/admin/v2alpha"
 	"github.com/hashicorp/go-multierror"
+	"istio.io/pkg/log"
 
 	"istio.io/istio/pilot/cmd/pilot-agent/status/util"
 	"istio.io/istio/pilot/pkg/model"
@@ -37,8 +38,12 @@ type Probe struct {
 func (p *Probe) Check() error {
 	// First, check that Envoy has received a configuration update from Pilot.
 	if err := p.checkUpdated(); err != nil {
+		log.Infof(fmt.Sprintf("[train] 2"))
+
+
 		return err
 	}
+	log.Infof(fmt.Sprintf("[train] 3"))
 
 	// Envoy has received some listener configuration, make sure that configuration has been received for
 	// any of the inbound ports.

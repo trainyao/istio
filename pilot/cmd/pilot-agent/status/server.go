@@ -158,6 +158,8 @@ func (s *Server) Run(ctx context.Context) {
 }
 
 func (s *Server) handleReadyProbe(w http.ResponseWriter, _ *http.Request) {
+	log.Infof(fmt.Sprintf("[train] 1"))
+
 	err := s.ready.Check()
 
 	s.mutex.Lock()

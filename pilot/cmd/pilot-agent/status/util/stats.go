@@ -49,6 +49,7 @@ func (s *Stats) String() string {
 
 // GetStats from Envoy.
 func GetStats(localHostAddr string, adminPort uint16) (*Stats, error) {
+	// TODO usedonly 是啥作用？
 	input, err := doHTTPGet(fmt.Sprintf("http://%s:%d/stats?usedonly", localHostAddr, adminPort))
 	if err != nil {
 		return nil, multierror.Prefix(err, "failed retrieving Envoy stats:")

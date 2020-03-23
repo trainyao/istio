@@ -20,9 +20,12 @@ import (
 	admin "github.com/envoyproxy/go-control-plane/envoy/admin/v2alpha"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/hashicorp/go-multierror"
+	"istio.io/pkg/log"
 )
 
 func GetServerInfo(localHostAddr string, adminPort uint16) (*admin.ServerInfo, error) {
+	log.Infof(fmt.Sprintf("[train] quering http://%s:%d/server_info", localHostAddr, adminPort))
+
 	input, err := doHTTPGet(fmt.Sprintf("http://%s:%d/server_info", localHostAddr, adminPort))
 	if err != nil {
 		return nil, multierror.Prefix(err, "failed retrieving Envoy stats:")

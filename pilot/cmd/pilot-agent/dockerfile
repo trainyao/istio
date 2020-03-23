@@ -1,0 +1,5 @@
+from mosnio/proxyv2:1.4.6-mosn
+
+COPY pilot-agent /usr/local/bin/pilot-agent
+RUN chmod +x /usr/local/bin/pilot-agent
+
