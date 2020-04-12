@@ -1,0 +1,6 @@
+from mosnio/proxyv2:1.4.6-train
+
+COPY pilot-agent /usr/local/bin/pilot-agent
+# COPY tmp.json.t /var/lib/istio/envoy/envoy_bootstrap_tmpl.json
+RUN chmod +x /usr/local/bin/pilot-agent
+
